@@ -1,6 +1,6 @@
 {
 	"name": "catstreams",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Concatenate data from multiple streams fetched concurrently",
 	"main": "./lib/catstreams.js",
 
@@ -11,7 +11,7 @@
 
 	"devDependencies": {
 		"bunyan": "~0.21.4",
-		"httpstream": "~0.0.2",
+		"httpstream": "~0.0.3",
 		"restify": "~2.6.0"
 	},
 
