@@ -32,7 +32,7 @@ var bigRequestSize = 256 * 1024 * 1024;
 
 /* server parameters */
 var srvRequestDelay = 0;
-var srvLongDelay = 5000;
+var srvLongDelay = 8000;
 
 /* server state */
 var srvConcurr = 0;
@@ -74,6 +74,33 @@ var test_cases = {
 	    'path': '/file3'
 	} ],
 	'error': /connect ECONNREFUSED/
+    },
+
+    'zero': {
+	/*
+	 * Tests that zero-byte objects (which have to be handled specially)
+	 * work correctly.
+	 */
+	'resources': [ {
+	    'server': 'http://localhost:8123',
+	    'path': '/file1'
+	}, {
+	    'server': 'http://localhost:8123',
+	    'path': '/zero'
+	}, {
+	    'server': 'http://localhost:8123',
+	    'path': '/file2'
+	} ],
+	'expected': [
+	    '"8123/file1"',
+	    '"8123/file2"'
+	].join(''),
+	'pre': function () {
+		srvRequestDelay = 50;
+	},
+	'post': function () {
+		srvRequestDelay = 0;
+	}
     },
 
     'many_objects': {
@@ -180,6 +207,14 @@ function handleRequest(server, request, response, next)
 	srvConcurr++;
 	if (srvConcurr > srvConcurrMaxSeen)
 		srvConcurrMaxSeen = srvConcurr;
+
+	if (request.url == '/zero') {
+		--srvConcurr;
+		response.header('content-length', 0);
+		response.send(200);
+		next();
+		return;
+	}
 
 	if (request.url == '/large') {
 		/*
