@@ -18,7 +18,7 @@ function FuzzSource(size, options)
 
 	buf = new Buffer(size);
 	for (i = 0; i < size; i++)
-		buf[i] = 65 + Math.floor(Math.random() * 26);
+		buf[i] = Math.floor(Math.random() * 256);
 
 	this.ds_emitted = 0;
 	this.ds_buf = buf;
