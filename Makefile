@@ -28,6 +28,7 @@ all:
 
 test:
 	(set -o pipefail; node tests/tst.catstreams.js | bunyan -o short)
+	(set -o pipefail; node tests/tst.fuzz.js | bunyan -o short)
 	@echo tests passed
 
 include ./Makefile.targ
