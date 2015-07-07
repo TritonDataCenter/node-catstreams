@@ -31,7 +31,8 @@ var concurrencyLimit = 100;
 var bigRequestSize = 256 * 1024 * 1024;
 
 /* server parameters */
-var srvRequestDelay = 0;
+var srvRequestDelayInit = 0;
+var srvRequestDelay = srvRequestDelayInit;
 var srvLongDelay = 8000;
 
 /* server state */
@@ -99,7 +100,7 @@ var test_cases = {
 		srvRequestDelay = 50;
 	},
 	'post': function () {
-		srvRequestDelay = 0;
+		srvRequestDelay = srvRequestDelayInit;
 	}
     },
 
@@ -119,10 +120,16 @@ var test_cases = {
 			this.expected += '"8123/file1"';
 		}
 		mod_assert.equal(this.resources.length, 2000);
+		srvRequestDelay = 100;
 	},
 	'post': function () {
+		log.info({
+		    'srvConcurrMaxSeen': srvConcurrMaxSeen,
+		    'concurrencyLimit': concurrencyLimit
+		});
 		mod_assert.ok(srvConcurrMaxSeen > concurrencyLimit / 2);
 		mod_assert.ok(srvConcurrMaxSeen <= concurrencyLimit);
+		srvRequestDelay = srvRequestDelayInit;
 	},
 	'resources': [],
 	'expected': ''
@@ -269,6 +276,7 @@ function handleRequest(server, request, response, next)
 		return;
 	}
 
+	log.debug({ 'delay': delay }, 'server response');
 	setTimeout(function () {
 		--srvConcurr;
 		response.send(server.address().port + request.url);
