@@ -1,6 +1,6 @@
 {
 	"name": "catstreams",
-	"version": "0.0.4",
+	"version": "0.5.0",
 	"description": "Concatenate data from multiple streams fetched concurrently",
 	"main": "./lib/catstreams.js",
 	"repository": {
