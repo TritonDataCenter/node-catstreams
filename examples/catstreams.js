@@ -9,8 +9,8 @@ var CatStreams = require('../lib/catstreams');
 
 var log = new mod_bunyan({
     'name': 'example',
-    'level': 'warn',
-    'serializers': {}
+    'level': process.env['LOG_LEVEL'] || 'warn',
+    'serializers': mod_restify.bunyan.serializers
 });
 
 var client = mod_restify.createClient({
