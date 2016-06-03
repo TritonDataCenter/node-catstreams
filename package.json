@@ -1,6 +1,6 @@
 {
 	"name": "catstreams",
-	"version": "0.5.0",
+	"version": "1.0.0",
 	"description": "Concatenate data from multiple streams fetched concurrently",
 	"main": "./lib/catstreams.js",
 	"repository": {
@@ -16,8 +16,8 @@
 	},
 	"dependencies": {
 		"readable-stream": "1.0.2",
-		"vasync": "1.6.3",
-		"verror": "1.6.0"
+		"vasync": "^1.6.3",
+		"verror": "^1.6.0"
 	},
 	"license": "MIT"
 }
